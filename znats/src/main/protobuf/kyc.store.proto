@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+import "scalapb/scalapb.proto";
+
+option optimize_for = SPEED;
+
+option (scalapb.options) = {
+  package_name: "com.media.gr.kyc.store.model"
+  flat_package: true
+  single_file: true
+};
+
+
+message KYCRowData {
+    required string index = 1;
+}

@@ -1,0 +1,7 @@
+-J-XX:+CMSClassUnloadingEnabled
+-J-Xmx6G
+-J-Xms2G
+-J-XX:MaxMetaspaceSize=2g
+-J-Xss8m
+-Dsbt.override.build.repos=true
+-Dsbt.repository.config=project/repositories

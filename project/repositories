@@ -1,0 +1,5 @@
+[repositories]
+  local
+  ivy-proxy: https://nexus.infra.guru/repository/ivy/, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]
+  maven-public: https://nexus.infra.guru/repository/maven-public/
+  gr-maven-private: https://nexus.infra.guru/repository/maven_private/
