@@ -20,7 +20,7 @@ object Nats {
 
   type SubscriptionId = Int
   final class ZNatsSession(channel: AsynchronousSocketChannel, curSidRef: Ref[Int]) {
-    def send(msg: NatsClientMessage): Task[Unit] =
+    def sendRaw(msg: NatsClientMessage): Task[Unit] =
       for {
         resChunk <- msg.serializeChunk
         sent     <- channel.write(resChunk)
@@ -30,14 +30,14 @@ object Nats {
     def subscribe(subj: String, queue: Option[String] = None): Task[SubscriptionId] =
       for {
         curSid <- curSidRef.getAndUpdate(_ + 1)
-        _      <- send(Sub(subj, queue, curSid))
+        _      <- sendRaw(Sub(subj, queue, curSid))
       } yield curSid
 
     def unsubscribe(sid: SubscriptionId, maxMessages: Option[Int] = None): Task[Unit] =
-      send(UnSub(sid, maxMessages))
+      sendRaw(UnSub(sid, maxMessages))
 
     def publish(subj: String, msg: String, replyTo: Option[String] = None): Task[Unit] =
-      send(Pub(subj, replyTo, msg.length, msg))
+      sendRaw(Pub(subj, replyTo, msg.length, msg))
 
   }
 
@@ -76,7 +76,7 @@ object Nats {
               .fromQueue(parsedBufferQ)
               .tap(msg => trace(s"Received nats message: $msg"))
               .tap {
-                case NatsMessage.Ping => trace("Sending PONG response") *> znats.send(Pong).unit
+                case NatsMessage.Ping => trace("Sending PONG response") *> znats.sendRaw(Pong).unit
                 case _                => ZIO.unit
               }
               .runDrain

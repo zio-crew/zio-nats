@@ -2,6 +2,7 @@ package zio.nats
 
 import zio._
 import zio.console._
+import zio.stream._
 import zio.nats.parser.NatsMessage.Connect
 
 object ZTestApp extends App {
@@ -9,13 +10,22 @@ object ZTestApp extends App {
     val logic = for {
       natsS <- Nats.connectToNatsHost(Nats.NatsHost("localhost", 4222))
       _ <- natsS.use { nats =>
+            val runs = 10000
             for {
-              _   <- nats.send(Connect.default)
+              _   <- nats.sendRaw(Connect.default)
               sid <- nats.subscribe("s1")
-              _   <- nats.publish("s1", "123")
-              _   <- putStrLn("Press enter to exit")
-              _   <- nats.unsubscribe(sid)
-              _   <- getStrLn
+              timedRes <- Stream
+                           .fromIterable(0 to 100)
+                           .mapM(id => nats.publish("s1", s"msg $id"))
+                           .runDrain
+                           .timed
+              _ <- putStrLn(
+                    s"Execution time ${timedRes._1.toMillis} ms for $runs messages. Avg: ${timedRes._1.toMillis.toFloat / runs} ms"
+                  )
+              _ <- nats.unsubscribe(sid)
+
+              _ <- putStrLn("Press enter to exit")
+              _ <- getStrLn
             } yield ()
           }
     } yield ()
