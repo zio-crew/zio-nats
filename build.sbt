@@ -1,13 +1,10 @@
+val ProjectVersion      = "0.0.1"
 val ZioVersion          = "1.0.0-RC21-2"
 val ZioCassandraVersion = "1.0.6"
 val UzHttpVersion       = "0.2.3"
-val ProjectVersion      = "0.0.1"
 val ScalaVersion        = "2.13.2"
 
 resolvers ++= Seq(
-  "GR Ivy" at "https://nexus.infra.guru/repository/ivy/",
-  "GR Maven Public" at "https://nexus.infra.guru/repository/maven-public/",
-  "GR Private" at "https://nexus.infra.guru/repository/maven_private/",
   Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snapshots")
 )
@@ -20,9 +17,6 @@ def subProjectSettings(pName: String) = Seq(
   scalaVersion := ScalaVersion,
   maxErrors := 3,
   resolvers ++= Seq(
-    "GR Ivy" at "https://nexus.infra.guru/repository/ivy/",
-    "GR Maven Public" at "https://nexus.infra.guru/repository/maven-public/",
-    "GR Private" at "https://nexus.infra.guru/repository/maven_private/",
     Resolver.sonatypeRepo("releases"),
     Resolver.sonatypeRepo("snapshots")
   ),
