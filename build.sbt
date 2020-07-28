@@ -4,6 +4,7 @@ val ZioCassandraVersion = "1.0.6"
 val UzHttpVersion       = "0.2.3"
 val ScalaVersion        = "2.13.2"
 
+licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snapshots")
