@@ -13,9 +13,8 @@ trait CommonParsers {
   def fractional[_: P]: P[Unit] = P("." ~ digits)
   def integral[_: P]: P[Unit]   = P("0" | CharIn("1-9") ~ digits.?)
 
-  def number[_: P]: P[JS.Num] = P(CharIn("+\\-").? ~ integral ~ fractional.? ~ exponent.?).!.map(
-    x => JS.Num(x.toDouble)
-  )
+  def number[_: P]: P[JS.Num] =
+    P(CharIn("+\\-").? ~ integral ~ fractional.? ~ exponent.?).!.map(x => JS.Num(x.toDouble))
 
   def intNumber[_: P]: P[Int] = P(CharIn("+\\-").? ~ integral).!.map(_.toInt)
 
@@ -34,12 +33,12 @@ trait CommonParsers {
   def singleQuotedStr[_: P]: P[Unit]            = P(CharsWhile(singleQuotedStringChars))
   def singleQuotedString[_: P]: P[String]       = P(space ~ "'" ~/ singleQuotedStr.rep.! ~ "'")
 
-  def array[_: P] =
+  def array[_: P]: P[JS.Arr] =
     P("[" ~/ jsonExpr.rep(sep = ","./) ~ space ~ "]").map(JS.Arr(_: _*))
 
-  def pair[_: P] = P(string.map(_.value) ~/ ":" ~/ jsonExpr)
+  def pair[_: P]: P[(String, JS.Val)] = P(string.map(_.value) ~/ ":" ~/ jsonExpr)
 
-  def obj[_: P] =
+  def obj[_: P]: P[JS.Obj] =
     P("{" ~/ pair.rep(sep = ","./) ~ space ~ "}").map(JS.Obj(_: _*))
 
   def jsonExpr[_: P]: P[JS.Val] = P(

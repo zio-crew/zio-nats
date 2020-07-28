@@ -30,7 +30,7 @@ object NatsMessage {
       s"""CONNECT {"verbose":$verbose,"pedantic":$pedantic,"tls_required":$tlsRequired,"name":"$name","lang":"scala","version":"$version","protocol":1}"""
 
     def build(
-      name: String = "",
+      name: String,
       verbose: Boolean = false,
       pedantic: Boolean = false,
       tlsRequired: Boolean = false,
