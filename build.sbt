@@ -17,6 +17,7 @@ def subProjectSettings(pName: String) = Seq(
   version := ProjectVersion,
   scalaVersion := ScalaVersion,
   maxErrors := 3,
+  licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
   resolvers ++= Seq(
     Resolver.sonatypeRepo("releases"),
     Resolver.sonatypeRepo("snapshots")
