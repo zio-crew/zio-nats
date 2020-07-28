@@ -1,4 +1,3 @@
-val ProjectVersion      = "0.0.1"
 val ZioVersion          = "1.0.0-RC21-2"
 val ZioCassandraVersion = "1.0.6"
 val UzHttpVersion       = "0.2.3"
@@ -14,7 +13,6 @@ testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
 def subProjectSettings(pName: String) = Seq(
   organization := "GR",
   name := pName,
-  version := ProjectVersion,
   scalaVersion := ScalaVersion,
   maxErrors := 3,
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
