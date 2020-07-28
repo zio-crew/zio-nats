@@ -10,16 +10,15 @@ import zio.test.environment._
 object RingBufferSpecs extends DefaultRunnableSpec {
 
   override def spec: ZSpec[TestEnvironment, Any] = suite("Ring buffer specs")(
-    test("Just fail")(assert(true)(equalTo(false))),
     testM("Builds initial ring buffer") {
       for {
-        buff     <- RingBuffer.make[String](3)
-        _        <- buff.append("1")
-        _        <- buff.append("2")
-        _        <- buff.append("4")
-        _        <- buff.append("4")
-        expected <- RingBuffer.make[String](3)
-      } yield assert(buff)(equalTo(expected))
+        buff <- RingBuffer.make[String](3)
+        _    <- buff.append("1")
+        _    <- buff.append("2")
+        _    <- buff.append("4")
+        _    <- buff.append("4")
+        h1   <- buff.head
+      } yield assert(h1)(equalTo(Some("2")))
     }
   )
 }

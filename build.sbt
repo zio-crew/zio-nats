@@ -42,6 +42,9 @@ lazy val `zio-nats` = (project in file("znats"))
 
 lazy val `zio-nats-root` = (project in file("."))
   .aggregate(`zio-nats`)
+  .settings(
+    skip in publish := true
+  )
 
 addCommandAlias("fmt", "all scalafmtSbt scalafmt test:scalafmt")
 addCommandAlias("chk", "all scalafmtSbtCheck scalafmtCheck test:scalafmtCheck")
